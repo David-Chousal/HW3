@@ -11,13 +11,12 @@
 namespace csen79 {
 
 class Bag {
-    static constexpr size_t DATASIZE = 1000;    // array size
 public:
     using Data = int;   // create an alias for the data
-    Bag(): data{0}, first{0}, count{0} {}
+    Bag(): data{nullptr}, first{0}, count{0}, DATASIZE{0} {}
 
     // rule of 5
-    ~Bag() = default;
+    ~Bag();
     Bag(const Bag &);
     Bag(Bag &&);
     Bag &operator=(const Bag &);
@@ -32,7 +31,8 @@ private:
     // data storage
     int first;
     int count;
-    Data data[DATASIZE];
+    size_t DATASIZE;    // array size
+    Data* data;
 };
 
 }

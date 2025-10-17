@@ -42,9 +42,25 @@ namespace csen79 {
 
     //Add data to end of Q
     void Bag::enQ(const Data &element) {
-        //Check if adding doesn't surpass limits
-        if (count >= DATASIZE){
-            throw std::out_of_range("The Queue is Full. DeQ Items to Add More.");
+        //Increase size if necessary
+        if (count >= DATASIZE) {
+            size_t newSize = DATASIZE + 200;
+            Data* temp = new Data[newSize];
+            
+            // Copy existing elements in circular order
+            for (int i = 0; i < count; i++) {
+                temp[i] = data[(first + i) % DATASIZE];
+            }
+            
+            // Clean up old array
+            if (data != nullptr) {
+                delete[] data;
+            }
+            
+            // Update to new array
+            data = temp;
+            DATASIZE = newSize;
+            first = 0;  // Reset first since we've linearized the array
         }
 
         //Set data at the end
